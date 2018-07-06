@@ -24,7 +24,7 @@ Fill in later
 
 Walkthroughs and code used for all of the quality assessment and data analysis steps are available in each of the below links.
 
-1. [Quality assessment with FastQC](https://cyverse-fastqc-quickstart.readthedocs-hosted.com/en/latest/)
+1. [Quality assessment with FastQC](https://github.com/ScottSchumacker/EnkeLab-Gallusgallus-Data/blob/master/Walkthroughs-Code/FastQC)
 1. [Sequence trimming with Trimmomatic](https://cyverse-trimmomatic-quickstart.readthedocs-hosted.com/en/latest/)
 1. [Kallisto indexing and quanitification](https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/)
 1. [Sleuth Part 1 Data Quality Analysis](https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html)
