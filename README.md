@@ -27,4 +27,5 @@ Walkthroughs and code used for all of the quality assessment and data analysis s
 1. [Quality assessment with FastQC](https://cyverse-fastqc-quickstart.readthedocs-hosted.com/en/latest/)
 1. [Sequence trimming with Trimmomatic](https://cyverse-trimmomatic-quickstart.readthedocs-hosted.com/en/latest/)
 1. [Kallisto indexing and quanitification](https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/)
-1. [Sleuth differential expression analysis](https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html)
+1. [Sleuth Part 1 Data Quality Analysis](https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html)
+1. [Sleuth part 2 Differential Expression Analysis]()
