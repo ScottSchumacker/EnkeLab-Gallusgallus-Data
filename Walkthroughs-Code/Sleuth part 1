@@ -2,3 +2,122 @@ Here is a tutorial provided by Cyverse on how to use Sleuth:
 https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html
 
 The following walkthrough will demonstrate how to use Sleuth in order to Analyze the quality of the data:
+
+# This script is used for the analysis of the Chicken Data
+
+# Download Bioconductor if you do not already have it installed
+source("https://bioconductor.org/biocLite.R")
+biocLite()
+
+# Download BiocUpgrade to update necessary Bioconductor packages if needed
+source("https://bioconductor.org/biocLite.R")
+biocLite("BiocUpgrade") 
+
+# Download BiomaRt
+source("https://bioconductor.org/biocLite.R")
+biocLite("biomaRt")
+
+# Install cowplot and load for plots and visuals
+install.packages("cowplot")
+library(cowplot)
+
+# Download Sleuth
+source("http://bioconductor.org/biocLite.R")
+biocLite("rhdf5")
+install.packages("devtools")
+devtools::install_github("pachterlab/sleuth")
+
+# Load sleuth into the project
+suppressMessages({library("sleuth")})
+
+# If the above line does not work try this next line
+library(sleuth)
+
+# Modify the following line so the location of your kallisto results (each
+# in their own folder) 
+sampleID <- dir(file.path(""))
+
+# Return the names on your samples to check that they all populate
+#in the console
+sampleID
+
+# Access each file path for the each sample. Again, paste the same
+# file path as before and also wright the sample_id
+kalDIRS <- file.path("",kalDIRS)
+
+# Return the file path to the results containing the kallisto outputs
+kalDIRS
+
+# Create a table (.txt) file and save
+# Load the table for the experimental design. Paste file path
+# of the experimental design table in quotations
+s2c <- read.table(file.path(""),
+                  header = TRUE,
+                  stringsAsFactors = FALSE,
+                  sep = "\t")
+
+# Check the table to see if it appears in the console
+s2c
+
+# Add the directories as a final table column called path
+s2c <- dplyr::mutate(s2c, path = kalDIRS)
+
+# Check the table to see if it appears in the console
+print(s2c)
+
+# Load biomaRt into the project
+library(biomaRt)
+
+# List the possible marts to view and pick one of your choice
+listMarts()
+
+# Choose which mart to use. Insert mart of choice betwwen quotation marks
+ensembl = useMart("ENSEMBL_MART_ENSEMBL")
+
+# List datasets within mart of choice to see which one you want/need
+listDatasets(ensembl)
+
+# Load genes of choice by defining which mart, dataset, and the host our 
+# data
+mart <- biomaRt::useMart(biomart = "ENSEMBL_MART_ENSEMBL",
+                         dataset = "ggallus_gene_ensembl",
+                         host = "www.ensembl.org")
+
+# Get target transcripts from bioMart
+t2g <- biomaRt::getBM(
+  attributes = c("ensembl_transcript_id", "transcript_version",
+                 "ensembl_gene_id", "external_gene_name", "description",
+                 "transcript_biotype"), mart = mart)
+
+# Renaming the output from BioMart to make it easier to work
+# with in sleuth
+t2g <- dplyr::mutate(t2g, target_id = paste(ensembl_transcript_id, 
+                                            transcript_version, sep = "."))
+
+t2g <- dplyr::select(t2g, target_id, transcript_version, ens_gene = ensembl_gene_id, 
+                     Gene_Name = external_gene_name, description, transcript_biotype)
+
+# Check your listing of transcripts to see if they populate in 
+# console. Not all transcripts will populate
+head(t2g)
+
+# Create the "Sleuth Object", a mathmatical
+# data structure that contains our results
+so <- sleuth_prep(s2c,
+                  target_mapping = t2g,
+                  extra_bootstrap_summary = TRUE)
+
+# Check to see if target mapping worked with data and bioMArt was
+# successful
+View(so$target_mapping)
+
+# Check the structure of the data with a PCA plot
+# You will get some expected warnings
+# Plot Basic PCA:
+plot_pca(so, color_by = 'treatment', point_size = 7)
+
+plot_pca(so, color_by = 'treatment', text_labels = TRUE)
+
+# Create a heatmap for your samples
+plot_sample_heatmap(so, use_filtered = TRUE, color_high = "white", color_low = "dodgerblue",
+                    x_axis_angle = 75)
