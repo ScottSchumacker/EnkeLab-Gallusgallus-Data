@@ -3,13 +3,13 @@ This repository contains the necessary instructions and code in order to perform
 
 This repository contains code used for quality control and data analysis presented in: 
 
-> Fill in Later
+
 
 ----
 
 ## Data availability
 
-Fill in later
+
 
 ## Software used
 
