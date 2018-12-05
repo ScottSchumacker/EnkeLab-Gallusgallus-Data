@@ -30,22 +30,22 @@ suppressMessages({library("sleuth")})
 library(sleuth)
 
 # Modify the following line to input the file path of your kallisto results
+# Place file path between quotation marks
 sampleID <- dir(file.path(""))
 
-# Return the names on your samples to check that they all populate
-# in the console
+# Return the names on your samples to check that they all populate in the console
 sampleID
 
 # Access each file path for the each sample. Again, paste the same
-# file path as before and also wright the sample_id
+# file path as before and also write the sample_id
 kalDIRS <- file.path("",kalDIRS)
 
 # Return the file path to the results containing the kallisto outputs
 kalDIRS
 
-# Create a table (.txt) file and save
+# Create a design-matrix table (.txt) file and save it
 # Load the table for the experimental design. Paste file path
-# of the experimental design table in quotations
+# of the experimental design table in between quotations
 s2c <- read.table(file.path(""),
                   header = TRUE,
                   stringsAsFactors = FALSE,
@@ -72,8 +72,7 @@ ensembl = useMart("ENSEMBL_MART_ENSEMBL")
 # List datasets within mart of choice to see which one you want/need
 listDatasets(ensembl)
 
-# Load genes of choice by defining which mart, dataset, and the host our 
-# data
+# Load mart and dataset of choice by defining which mart, dataset, and the host to variable 'mart'
 mart <- biomaRt::useMart(biomart = "ENSEMBL_MART_ENSEMBL",
                          dataset = "ggallus_gene_ensembl",
                          host = "www.ensembl.org")
@@ -91,18 +90,16 @@ t2g <- dplyr::mutate(t2g, target_id = paste(ensembl_transcript_id,
 t2g <- dplyr::select(t2g, target_id, transcript_version, ens_gene = ensembl_gene_id, 
                      Gene_Name = external_gene_name, description, transcript_biotype)
 
-# Check your listing of transcripts to see if they populate in 
-# console. Not all transcripts will populate
+# Check your listing of transcripts to see if they populate
+# Not all will populate due to the 'head' function
 head(t2g)
 
-# Create the "Sleuth Object", a mathmatical
-# data structure that contains our results
+# Create the "Sleuth Object", a mathmatical structure that contains the results
 so <- sleuth_prep(s2c,
                   target_mapping = t2g,
                   extra_bootstrap_summary = TRUE)
 
-# Check to see if target mapping worked with data and bioMArt was
-# successful
+# Check to see if target mapping worked with the data and if bioMArt was successful
 View(so$target_mapping)
 
 # Check the structure of the data with a PCA plot
