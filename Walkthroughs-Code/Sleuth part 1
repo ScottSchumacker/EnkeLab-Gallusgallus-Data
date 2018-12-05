@@ -1,9 +1,7 @@
-Here is a tutorial provided by Cyverse on how to use Sleuth:
-https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html
+# Here is a tutorial provided by Cyverse on how to use Sleuth:
+# https://learning.cyverse.org/projects/kallisto_tutorial/en/latest/step4.html
 
-The following walkthrough will demonstrate how to use Sleuth in order to Analyze the quality of the data:
-
-# This script is used for the analysis of the Chicken Data
+# The following script will demonstrate how to use Sleuth in order to Analyze the quality of the data:
 
 # Download Bioconductor if you do not already have it installed
 source("https://bioconductor.org/biocLite.R")
@@ -29,16 +27,13 @@ devtools::install_github("pachterlab/sleuth")
 
 # Load sleuth into the project
 suppressMessages({library("sleuth")})
-
-# If the above line does not work try this next line
 library(sleuth)
 
-# Modify the following line so the location of your kallisto results (each
-# in their own folder) 
+# Modify the following line to input the file path of your kallisto results
 sampleID <- dir(file.path(""))
 
 # Return the names on your samples to check that they all populate
-#in the console
+# in the console
 sampleID
 
 # Access each file path for the each sample. Again, paste the same
@@ -56,10 +51,10 @@ s2c <- read.table(file.path(""),
                   stringsAsFactors = FALSE,
                   sep = "\t")
 
-# Check the table to see if it appears in the console
+# Check the table to see if it populates in the console
 s2c
 
-# Add the directories as a final table column called path
+# Add the file paths as a final table column called path
 s2c <- dplyr::mutate(s2c, path = kalDIRS)
 
 # Check the table to see if it appears in the console
@@ -89,8 +84,7 @@ t2g <- biomaRt::getBM(
                  "ensembl_gene_id", "external_gene_name", "description",
                  "transcript_biotype"), mart = mart)
 
-# Renaming the output from BioMart to make it easier to work
-# with in sleuth
+# Rename the output from BioMart to make it easier for sleuth to work with
 t2g <- dplyr::mutate(t2g, target_id = paste(ensembl_transcript_id, 
                                             transcript_version, sep = "."))
 
@@ -112,7 +106,6 @@ so <- sleuth_prep(s2c,
 View(so$target_mapping)
 
 # Check the structure of the data with a PCA plot
-# You will get some expected warnings
 # Plot Basic PCA:
 plot_pca(so, color_by = 'treatment', point_size = 7)
 
