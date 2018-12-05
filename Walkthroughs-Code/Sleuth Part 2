@@ -1,7 +1,7 @@
 # The following walkthrough will demonstrate how to use Sleuth in order to perform differential gene expression -
 # analysis on the Gallus gallus data
 
-# Script Edited by Scott Schumacker
+# Script edited by Scott Schumacker
 
 # Download Bioconductor if you do not already have it installed
 source("https://bioconductor.org/biocLite.R")
